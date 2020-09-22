@@ -15,7 +15,7 @@ class Object(object):
     pass
 
 def conf2jsonFile(output_file, body_data, profile):
-    string_array = str(body_data, 'ascii').split('\x00')
+    string_array = str(body_data).split('\x00')
     jsonConf = {}
     jsonConf['PROFILE'] = profile
     jsonConf['SETTINGS'] = {}
@@ -42,7 +42,7 @@ def jsonFile2Conf(input_file):
         buff = bytearray()
 
         for key, value in sorted(jsonConf['SETTINGS'].items()):
-            buff.extend(bytes(key, 'ascii') + B'=' + bytes(value, 'ascii') + B'\0')
+            buff.extend(bytes(key) + B'=' + bytes(value) + B'\0')
 
         buff.extend(bytearray(1024 - len(buff) % 1024)) # align size to next KB
         return buff, profile
@@ -84,7 +84,7 @@ def parse_header(header_data):
 
         if unpacked_header[0] in validProfiles:
             parsedHeader = Object()
-            parsedHeader.profile = str(unpacked_header[0], 'ascii')
+            parsedHeader.profile = str(unpacked_header[0])
 
             if parsedHeader.profile == 'HDR1':
                 parsedHeader.bodylength = unpacked_header[1]
@@ -102,7 +102,7 @@ def parse_header(header_data):
 
 
 def create_header(length, profile, randkey):
-    profile = bytes(profile, 'ascii')
+    profile = bytes(profile)
     if profile in validProfiles:
         if profile != 'HDR1':
             length = (randkey << 24) | length # 3 byte for length, 1 byte for randkey
