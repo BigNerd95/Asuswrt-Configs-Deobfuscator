@@ -9,7 +9,7 @@ import json
 import sys
 
 
-validProfiles = [B'HDR1', B'HDR2', B'N55U', B'AC55U']
+validProfiles = [B'HDR1', B'HDR2', B'N55U', B'AC55U', B'AC55']
 
 class Object(object):
     pass
